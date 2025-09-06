@@ -18,8 +18,11 @@ const __dirname = path.resolve();
 // Middlewares
 app.use(
   cors({
-    origin: "http://localhost:5173",
-    credentials: true, // allow frontend to send cookies
+    origin: [
+      "http://localhost:5173",          // local dev
+      "https://yappit.vercel.app"       // deployed frontend
+    ],
+    credentials: true,
   })
 );
 app.use(express.json());
