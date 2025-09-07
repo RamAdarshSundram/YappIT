@@ -17,13 +17,13 @@ const __dirname = path.resolve();
 
 // Middlewares
 app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",          // local dev
-      "https://yappit.vercel.app"       // deployed frontend
-    ],
-    credentials: true,
-  })
+	cors({
+		origin: [
+			"http://localhost:5173", // local dev
+			"https://yappit.vercel.app", // deployed frontend
+		],
+		credentials: true,
+	})
 );
 app.use(express.json());
 app.use(cookieParser());
@@ -35,18 +35,20 @@ app.use("/api/chat", chatRoutes);
 
 // Production setup
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+	// CHANGED: Corrected path to go up two directories
+	app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-  });
+	app.get("*", (req, res) => {
+		// CHANGED: Corrected path to go up two directories
+		res.sendFile(path.join(__dirname, "../../frontend", "dist", "index.html"));
+	});
 }
 
 // ✅ Connect DB first, then start server
 connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`✅ Server is running on port ${PORT}`);
-  });
+	app.listen(PORT, () => {
+		console.log(`✅ Server is running on port ${PORT}`);
+	});
 });
 
 // Debug logs (optional)
