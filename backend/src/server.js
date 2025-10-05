@@ -33,16 +33,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 
-// Production setup
-if (process.env.NODE_ENV === "production") {
-	// CHANGED: Corrected path to go up two directories
-	app.use(express.static(path.join(__dirname, "../../frontend/dist")));
-
-	app.get("*", (req, res) => {
-		// CHANGED: Corrected path to go up two directories
-		res.sendFile(path.join(__dirname, "../../frontend", "dist", "index.html"));
-	});
-}
+// Production setup block has been removed
 
 // ✅ Connect DB first, then start server
 connectDB().then(() => {
